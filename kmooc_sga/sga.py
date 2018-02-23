@@ -52,7 +52,7 @@ class StaffGradedAssignmentXBlock(XBlock):
     icon_class = 'problem'
 
     display_name = String(
-        default='K-MOOC sga', scope=Scope.settings,
+        default='K-MOOC sga2', scope=Scope.settings,
         help="This name appears in the horizontal navigation at the top of "
              "the page."
     )
