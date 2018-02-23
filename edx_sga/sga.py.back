@@ -181,20 +181,26 @@ class StaffGradedAssignmentXBlock(XBlock):
         """
         context = {
             "student_state": json.dumps(self.student_state()),
-            "id": self.location.name.replace('.', '_'),
+            "id": self.location.name.replace('.', '_')
         }
         if self.show_staff_grading_interface():
             context['is_course_staff'] = True
             self.update_staff_debug_context(context)
 
         fragment = Fragment()
+        log.info('------------------------------------------------------------------ 111')
+        log.info(self.pass_file)
+        log.info('------------------------------------------------------------------ 222')
 
-        fragment.add_content(
-            render_template(
-                'templates/staff_graded_assignment/show.html',
-                context
+        if self.pass_file:
+            pass
+        else:
+            fragment.add_content(
+                render_template(
+                    'templates/staff_graded_assignment/show.html',
+                    context
+                )
             )
-        )
         fragment.add_css(_resource("static/css/edx_sga.css"))
         fragment.add_javascript(_resource("static/js/src/edx_sga.js"))
         fragment.initialize_js('StaffGradedAssignmentXBlock')
@@ -236,13 +242,13 @@ class StaffGradedAssignmentXBlock(XBlock):
         log.info('uploaded --------------------------------------- ')
         log.info(uploaded)
         log.info('student_state --------------------------------- s')
+
         return {
             "uploaded": uploaded,
             "annotated": annotated,
             "graded": graded,
             "max_score": self.max_score(),
             "upload_allowed": self.upload_allowed(),
-            "pass_file": self.pass_file,
         }
 
     def staff_grading_data(self):
@@ -349,18 +355,6 @@ class StaffGradedAssignmentXBlock(XBlock):
 
     @XBlock.handler
     def upload_assignment(self, request, suffix=''):
-        if self.pass_file:
-            print 'upload_assignment pass_file -----------------------------------'
-            answer = {
-                "sha1": 'pass_file',
-                "filename": 'pass_file',
-                "mimetype": 'pass_file',
-            }
-            student_id = self.student_submission_id()
-            submissions_api.create_submission(student_id, answer)
-            return Response(json_body=self.student_state())
-
-        print 'upload_assignment called ----------------------------------- 1'
         require(self.upload_allowed())
         upload = request.params['assignment']
         sha1 = _get_sha1(upload.file)
@@ -374,7 +368,7 @@ class StaffGradedAssignmentXBlock(XBlock):
         path = self._file_storage_path(sha1, upload.file.name)
         if not default_storage.exists(path):
             default_storage.save(path, File(upload.file))
-        print 'upload_assignment called ----------------------------------- 2'
+        print 'upload_assignment called -----------------------------------'
         return Response(json_body=self.student_state())
 
     @XBlock.handler

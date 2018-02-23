@@ -19,9 +19,28 @@ function StaffGradedAssignmentXBlock(runtime, element) {
             state.annotatedUrl = annotatedUrl;
             state.error = state.error ? state.error : false;
 
+            console.log('state.pass_file: ' + state.pass_file);
+
             // Render template
             var content = $(element).find("#sga-content").html(template(state));
 
+            if (state.pass_file){
+                console.log('click event create !!');
+                var do_upload = $(content).html('');
+                $('<button/>')
+                    .text('click')
+                    .appendTo(do_upload)
+                    .click(function(){
+                        $.post(uploadUrl, 
+                            {}, 
+                            function(e, data){
+                                console.log(data);
+                                render(data.result);
+                            });
+                    });
+                return;
+            }
+                
             // Set up file upload
             $(content).find(".fileupload").fileupload({
                 url: uploadUrl,
