@@ -52,7 +52,7 @@ class StaffGradedAssignmentXBlock(XBlock):
     icon_class = 'problem'
 
     display_name = String(
-        default='K-MOOC sga2', scope=Scope.settings,
+        default='K-MOOC sga', scope=Scope.settings,
         help="This name appears in the horizontal navigation at the top of "
              "the page."
     )
@@ -60,7 +60,7 @@ class StaffGradedAssignmentXBlock(XBlock):
     pass_file = Boolean(
         display_name="pass file",
         help=("pass file"),
-        default=False,
+        default=True,
         scope=Scope.settings
     )
 
@@ -226,11 +226,6 @@ class StaffGradedAssignmentXBlock(XBlock):
         else:
             graded = None
 
-        log.info('student_state --------------------------------- s')
-        log.info(self.pass_file)
-        log.info('uploaded --------------------------------------- ')
-        log.info(uploaded)
-        log.info('student_state --------------------------------- s')
         return {
             "uploaded": uploaded,
             "annotated": annotated,
@@ -301,10 +296,11 @@ class StaffGradedAssignmentXBlock(XBlock):
             edit_fields = (
                 (field, none_to_empty(getattr(self, field.name)), validator)
                 for field, validator in (
-                (cls.display_name, 'string'),
-                (cls.pass_file, 'boolean'),
-                (cls.points, 'number'),
-                (cls.weight, 'number'))
+                    (cls.display_name, 'string'),
+                    (cls.pass_file, 'boolean'),
+                    (cls.points, 'number'),
+                    (cls.weight, 'number')
+                )
             )
 
             context = {

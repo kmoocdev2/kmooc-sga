@@ -24,87 +24,20 @@ function StaffGradedAssignmentXBlock(runtime, element) {
             // Render template
             var content = $(element).find("#sga-content").html(template(state));
 
-            if (state.pass_file){
-                console.log('click event create !!');
-                var do_upload = $(content).html('');
-                $('<button/>')
-                    .text('click')
-                    .appendTo(do_upload)
-                    .click(function(){
-                        $.post(uploadUrl, 
-                            {}, 
-                            function(e, data){
-                                console.log(data);
-                                render(data.result);
-                            });
-                    });
-                return;
-            }
-                
-            // Set up file upload
-            $(content).find(".fileupload").fileupload({
-                url: uploadUrl,
-                add: function(e, data) {
-                    var do_upload = $(content).find(".upload").html('');
-                    $('<button/>')
-                        .text('Upload ' + data.files[0].name)
-                        .appendTo(do_upload)
-                        .click(function() {
-                            do_upload.text("Uploading...");
-                            data.submit();
+            console.log('click event create !!');
+            var do_upload = $(content).html('');
+            $('<button/>')
+                .text('click')
+                .appendTo(do_upload)
+                .appendTo('k-mooc sga button')
+                .click(function(){
+                    $.post(uploadUrl,
+                        {},
+                        function(e, data){
+                            console.log(data);
+                            render(data.result);
                         });
-                },
-                progressall: function(e, data) {
-                    var percent = parseInt(data.loaded / data.total * 100, 10);
-                    $(content).find(".upload").text(
-                        "Uploading... " + percent + "%");
-                },
-                fail: function(e, data) {
-                    /**
-                     * Nginx and other sanely implemented servers return a 
-                     * "413 Request entity too large" status code if an 
-                     * upload exceeds its limit.  See the 'done' handler for
-                     * the not sane way that Django handles the same thing.
-                     */
-                    if (data.jqXHR.status == 413) {
-                        /* I guess we have no way of knowing what the limit is
-                         * here, so no good way to inform the user of what the
-                         * limit is.
-                         */
-                        state.error = "The file you are trying to upload is too large."
-                    }
-                    else {
-                        // Suitably vague
-                        state.error = "There was an error uploading your file.";
-
-                        // Dump some information to the console to help someone
-                        // debug.
-                        console.log("There was an error with file upload.");
-                        console.log("event: ", e);
-                        console.log("data: ", data);
-                    }
-                    render(state);
-                },
-                done: function(e, data) { 
-                    /* When you try to upload a file that exceeds Django's size
-                     * limit for file uploads, Django helpfully returns a 200 OK
-                     * response with a JSON payload of the form:
-                     * 
-                     *   {'success': '<error message'}
-                     * 
-                     * Thanks Obama!
-                     */
-                    if (data.result.success !== undefined) {
-                        // Actually, this is an error
-                        state.error = data.result.success;
-                        render(state);
-                    }
-                    else {
-                        // The happy path, no errors
-                        render(data.result); 
-                    }
-                }
-            });
+                });
         }
 
         function renderStaffGrading(data) {
