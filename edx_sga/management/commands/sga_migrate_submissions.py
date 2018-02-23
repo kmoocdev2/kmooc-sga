@@ -28,12 +28,12 @@ class Command(BaseCommand):
 
         student_modules = StudentModule.objects.filter(
             course_id=course.id).filter(
-            module_state_key__contains='edx_sga')
+            module_state_key__contains='kmooc_sga')
 
         blocks = {}
         for student_module in student_modules:
             block_id = student_module.module_state_key
-            if block_id.block_type != 'edx_sga':
+            if block_id.block_type != 'kmooc_sga':
                 continue
             block = blocks.get(block_id)
             if not block:
