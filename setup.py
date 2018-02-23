@@ -15,8 +15,8 @@ def package_data(pkg, root_list):
     return {pkg: data}
 
 setup(
-    name='edx-sga',
-    version='0.5.0',
+    name='kmooc-sga',
+    version='0.1.0',
     description='edx-sga Staff Graded Assignment XBlock',
     license='Affero GNU General Public License v3 (GPLv3)',
     url="https://github.com/mitodl/edx-sga",
@@ -29,8 +29,8 @@ setup(
     ],
     entry_points={
         'xblock.v1': [
-            'edx_sga = edx_sga:StaffGradedAssignmentXBlock',
+            'kmooc_sga = kmooc_sga:StaffGradedAssignmentXBlock',
         ]
     },
-    package_data=package_data("edx_sga", ["static", "templates"]),
+    package_data=package_data("kmooc_sga", ["static", "templates"]),
 )

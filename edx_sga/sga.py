@@ -7,32 +7,25 @@ import hashlib
 import json
 import logging
 import mimetypes
+from functools import partial
+
 import os
 import pkg_resources
 import pytz
-
-from functools import partial
-
 from courseware.models import StudentModule
-
 from django.core.exceptions import PermissionDenied
 from django.core.files import File
 from django.core.files.storage import default_storage
 from django.template import Context, Template
-
 from student.models import user_by_anonymous_id
 from submissions import api as submissions_api
 from submissions.models import StudentItem as SubmissionsStudent
-
 from webob.response import Response
-
 from xblock.core import XBlock
 from xblock.exceptions import JsonHandlerError
 from xblock.fields import DateTime, Scope, String, Float, Integer, Boolean
 from xblock.fragment import Fragment
-
 from xmodule.util.duedate import get_extended_due_date
-
 
 log = logging.getLogger(__name__)
 
@@ -41,10 +34,12 @@ def reify(meth):
     """
     Property which caches value so it is only computed once.
     """
+
     def getter(inst):
         value = meth(inst)
         inst.__dict__[meth.__name__] = value
         return value
+
     return property(getter)
 
 
@@ -302,13 +297,14 @@ class StaffGradedAssignmentXBlock(XBlock):
 
             def none_to_empty(x):
                 return x if x is not None else ''
+
             edit_fields = (
                 (field, none_to_empty(getattr(self, field.name)), validator)
                 for field, validator in (
-                    (cls.display_name, 'string'),
-                    (cls.pass_file, 'boolean'),
-                    (cls.points, 'number'),
-                    (cls.weight, 'number'))
+                (cls.display_name, 'string'),
+                (cls.pass_file, 'boolean'),
+                (cls.points, 'number'),
+                (cls.weight, 'number'))
             )
 
             context = {
@@ -330,10 +326,9 @@ class StaffGradedAssignmentXBlock(XBlock):
 
     @XBlock.json_handler
     def save_sga(self, data, suffix=''):
-        print 'save_sga called -----------------------------------'
         self.display_name = data.get('display_name', self.display_name)
         self.weight = data.get('weight', self.weight)
-        self.pass_file= data.get('pass_file', self.weight)
+        self.pass_file = data.get('pass_file', self.weight)
 
         # Validate points before saving
         points = data.get('points', self.points)
@@ -350,7 +345,6 @@ class StaffGradedAssignmentXBlock(XBlock):
     @XBlock.handler
     def upload_assignment(self, request, suffix=''):
         if self.pass_file:
-            print 'upload_assignment pass_file -----------------------------------'
             answer = {
                 "sha1": 'pass_file',
                 "filename": 'pass_file',
@@ -360,7 +354,6 @@ class StaffGradedAssignmentXBlock(XBlock):
             submissions_api.create_submission(student_id, answer)
             return Response(json_body=self.student_state())
 
-        print 'upload_assignment called ----------------------------------- 1'
         require(self.upload_allowed())
         upload = request.params['assignment']
         sha1 = _get_sha1(upload.file)
@@ -374,7 +367,6 @@ class StaffGradedAssignmentXBlock(XBlock):
         path = self._file_storage_path(sha1, upload.file.name)
         if not default_storage.exists(path):
             default_storage.save(path, File(upload.file))
-        print 'upload_assignment called ----------------------------------- 2'
         return Response(json_body=self.student_state())
 
     @XBlock.handler
@@ -394,7 +386,6 @@ class StaffGradedAssignmentXBlock(XBlock):
             default_storage.save(path, File(upload.file))
         module.state = json.dumps(state)
         module.save()
-        print 'staff_upload_annotated called -----------------------------------'
         return Response(json_body=self.staff_grading_data())
 
     @XBlock.handler
@@ -466,7 +457,6 @@ class StaffGradedAssignmentXBlock(XBlock):
         state['comment'] = request.params.get('comment', '')
         module.state = json.dumps(state)
         module.save()
-        print 'enter_grade called -----------------------------------'
         return Response(json_body=self.staff_grading_data())
 
     @XBlock.handler
@@ -484,7 +474,6 @@ class StaffGradedAssignmentXBlock(XBlock):
         state['annotated_timestamp'] = None
         module.state = json.dumps(state)
         module.save()
-        print 'remove_grade called -----------------------------------'
         return Response(json_body=self.staff_grading_data())
 
     def is_course_staff(self):
@@ -519,7 +508,7 @@ class StaffGradedAssignmentXBlock(XBlock):
 
 
 def _get_sha1(file):
-    BLOCK_SIZE = 2**10 * 8  # 8kb
+    BLOCK_SIZE = 2 ** 10 * 8  # 8kb
     sha1 = hashlib.sha1()
     for block in iter(partial(file.read, BLOCK_SIZE), ''):
         sha1.update(block)
