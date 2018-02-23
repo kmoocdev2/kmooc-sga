@@ -29,7 +29,7 @@ setup(
     ],
     entry_points={
         'xblock.v1': [
-            'kmooc_sga = kmooc_sga:StaffGradedAssignmentXBlock',
+            'kmooc_sga = kmooc_sga:StaffGradedAssignmentXBlock2',
         ]
     },
     package_data=package_data("kmooc_sga", ["static", "templates"]),

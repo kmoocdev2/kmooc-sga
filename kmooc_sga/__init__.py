@@ -1,1 +1,1 @@
-from .sga import StaffGradedAssignmentXBlock
+from .sga import StaffGradedAssignmentXBlock2

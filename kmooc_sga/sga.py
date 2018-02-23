@@ -43,7 +43,7 @@ def reify(meth):
     return property(getter)
 
 
-class StaffGradedAssignmentXBlock(XBlock):
+class StaffGradedAssignmentXBlock2(XBlock):
     """
     This block defines a Staff Graded Assignment.  Students are shown a rubric
     and invited to upload a file which is then graded by staff.
@@ -171,7 +171,7 @@ class StaffGradedAssignmentXBlock(XBlock):
 
     def student_view(self, context=None):
         """
-        The primary view of the StaffGradedAssignmentXBlock, shown to students
+        The primary view of the StaffGradedAssignmentXBlock2, shown to students
         when viewing courses.
         """
         context = {
@@ -192,7 +192,7 @@ class StaffGradedAssignmentXBlock(XBlock):
         )
         fragment.add_css(_resource("static/css/edx_sga.css"))
         fragment.add_javascript(_resource("static/js/src/edx_sga.js"))
-        fragment.initialize_js('StaffGradedAssignmentXBlock')
+        fragment.initialize_js('StaffGradedAssignmentXBlock2')
         return fragment
 
     def update_staff_debug_context(self, context):
@@ -314,7 +314,7 @@ class StaffGradedAssignmentXBlock(XBlock):
                 )
             )
             fragment.add_javascript(_resource("static/js/src/studio.js"))
-            fragment.initialize_js('StaffGradedAssignmentXBlock')
+            fragment.initialize_js('StaffGradedAssignmentXBlock2')
             return fragment
         except:  # pragma: NO COVER
             log.error("Don't swallow my exceptions", exc_info=True)

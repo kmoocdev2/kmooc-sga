@@ -1,5 +1,5 @@
-/* Javascript for StaffGradedAssignmentXBlock. */
-function StaffGradedAssignmentXBlock(runtime, element) {
+/* Javascript for StaffGradedAssignmentXBlock2. */
+function StaffGradedAssignmentXBlock2(runtime, element) {
     function xblock($, _) {
         var uploadUrl = runtime.handlerUrl(element, 'upload_assignment');
         var downloadUrl = runtime.handlerUrl(element, 'download_assignment');
@@ -22,7 +22,7 @@ function StaffGradedAssignmentXBlock(runtime, element) {
             console.log('state.pass_file: ' + state.pass_file);
 
             // Render template
-            var content = $(element).find("#sga-content").html(template(state));
+            var content = $(element).find("#kmooc-sga-content").html(template(state));
 
             console.log('click event create !!');
             var do_upload = $(content).html('');
