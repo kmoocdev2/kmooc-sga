@@ -56,7 +56,7 @@ class StaffGradedAssignmentXBlock2(XBlock):
 
     display_name = String(
         display_name=_("display_name"),
-        default='K-MOOC sga', scope=Scope.settings,
+        default=_('K-MOOC Staff Graded Assignment'), scope=Scope.settings,
         help="This name appears in the horizontal navigation at the top of "
              "the page."
     )

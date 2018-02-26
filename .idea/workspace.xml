@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="f30a30f6-7f26-4938-bc97-0bfdc57b1ca4" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kmooc_sga/sga.py" afterPath="$PROJECT_DIR$/kmooc_sga/sga.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kmooc_sga/static/js/src/edx_sga.js" afterPath="$PROJECT_DIR$/kmooc_sga/static/js/src/edx_sga.js" />
     </list>
     <ignored path="kmooc-sga.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -60,8 +59,8 @@
       <file leaf-file-name="sga.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/kmooc_sga/sga.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3502825">
-              <caret line="351" column="9" selection-start-line="351" selection-start-column="9" selection-end-line="351" selection-end-column="9" />
+            <state vertical-scroll-proportion="0.4858757">
+              <caret line="67" column="28" selection-start-line="67" selection-start-column="28" selection-end-line="67" selection-end-column="28" />
               <folding>
                 <element signature="e#143#158#0" expanded="true" />
               </folding>
@@ -348,8 +347,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/kmooc_sga/sga.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3502825">
-          <caret line="351" column="9" selection-start-line="351" selection-start-column="9" selection-end-line="351" selection-end-column="9" />
+        <state vertical-scroll-proportion="0.4858757">
+          <caret line="67" column="28" selection-start-line="67" selection-start-column="28" selection-end-line="67" selection-end-column="28" />
           <folding>
             <element signature="e#143#158#0" expanded="true" />
           </folding>
