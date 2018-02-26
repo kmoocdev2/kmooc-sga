@@ -27,6 +27,9 @@ from xblock.fields import DateTime, Scope, String, Float, Integer, Boolean
 from xblock.fragment import Fragment
 from xmodule.util.duedate import get_extended_due_date
 
+# from django.utils.translation import ugettext as _
+from django.utils.translation import gettext_lazy as _
+
 log = logging.getLogger(__name__)
 
 
@@ -52,20 +55,21 @@ class StaffGradedAssignmentXBlock2(XBlock):
     icon_class = 'problem'
 
     display_name = String(
+        display_name=_("display_name"),
         default='K-MOOC sga', scope=Scope.settings,
         help="This name appears in the horizontal navigation at the top of "
              "the page."
     )
 
     pass_file = Boolean(
-        display_name="pass file",
+        display_name=_("pass file"),
         help=("pass file"),
         default=True,
         scope=Scope.settings
     )
 
     weight = Float(
-        display_name="Problem Weight",
+        display_name=_("Problem Weight"),
         help=("Defines the number of points each problem is worth. "
               "If the value is not set, the problem is worth the sum of the "
               "option point values."),
@@ -74,14 +78,14 @@ class StaffGradedAssignmentXBlock2(XBlock):
     )
 
     points = Integer(
-        display_name="Maximum score",
+        display_name=_("Maximum score"),
         help=("Maximum grade score given to assignment by staff."),
         default=100,
         scope=Scope.settings
     )
 
     staff_score = Integer(
-        display_name="Score assigned by non-instructor staff",
+        display_name=_("Score assigned by non-instructor staff"),
         help=("Score will need to be approved by instructor before being "
               "published."),
         default=None,
@@ -89,14 +93,14 @@ class StaffGradedAssignmentXBlock2(XBlock):
     )
 
     comment = String(
-        display_name="Instructor comment",
+        display_name=_("Instructor comment"),
         default='',
         scope=Scope.user_state,
         help="Feedback given to student by instructor."
     )
 
     annotated_sha1 = String(
-        display_name="Annotated SHA1",
+        display_name=_("Annotated SHA1"),
         scope=Scope.user_state,
         default=None,
         help=("sha1 of the annotated file uploaded by the instructor for "
@@ -104,21 +108,21 @@ class StaffGradedAssignmentXBlock2(XBlock):
     )
 
     annotated_filename = String(
-        display_name="Annotated file name",
+        display_name=_("Annotated file name"),
         scope=Scope.user_state,
         default=None,
         help="The name of the annotated file uploaded for this assignment."
     )
 
     annotated_mimetype = String(
-        display_name="Mime type of annotated file",
+        display_name=_("Mime type of annotated file"),
         scope=Scope.user_state,
         default=None,
         help="The mimetype of the annotated file uploaded for this assignment."
     )
 
     annotated_timestamp = DateTime(
-        display_name="Timestamp",
+        display_name=_("Timestamp"),
         scope=Scope.user_state,
         default=None,
         help="When the annotated file was uploaded")
@@ -297,7 +301,7 @@ class StaffGradedAssignmentXBlock2(XBlock):
                 (field, none_to_empty(getattr(self, field.name)), validator)
                 for field, validator in (
                     (cls.display_name, 'string'),
-                    (cls.pass_file, 'boolean'),
+                    # (cls.pass_file, 'boolean'),
                     (cls.points, 'number'),
                     (cls.weight, 'number')
                 )
@@ -307,7 +311,7 @@ class StaffGradedAssignmentXBlock2(XBlock):
                 'fields': edit_fields
             }
             fragment = Fragment()
-            fragment.add_content(
+            fragment.adcontent(
                 render_template(
                     'templates/staff_graded_assignment/edit.html',
                     context

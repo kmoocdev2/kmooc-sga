@@ -24,7 +24,8 @@ function StaffGradedAssignmentXBlock2(runtime, element, server) {
             url: saveUrl,
             data: JSON.stringify(data),
             success: function() {
-                view.runtime.notify('save', {state: 'end'});
+                //view.runtime.notify('save', {state: 'end'});
+                document.location.reload();
             }
         });
     }

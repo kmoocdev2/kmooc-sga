@@ -10,7 +10,7 @@ function StaffGradedAssignmentXBlock2(runtime, element) {
         var staffUploadUrl = runtime.handlerUrl(element, 'staff_upload_annotated');
         var enterGradeUrl = runtime.handlerUrl(element, 'enter_grade');
         var removeGradeUrl = runtime.handlerUrl(element, 'remove_grade');
-        var template = _.template($(element).find("#sga-tmpl").text());
+        var template = _.template($(element).find("#sga-tmpl2").text());
         var gradingTemplate;
 
         function render(state) {
@@ -24,15 +24,15 @@ function StaffGradedAssignmentXBlock2(runtime, element) {
             // Render template
             var content = $(element).find("#kmooc-sga-content").html(template(state));
 
-            console.log('click event create !!');
-            console.log('downloadUrl: ' + downloadUrl);
+            //console.log('click event create !!');
+            //console.log('downloadUrl: ' + downloadUrl);
 
             var do_upload = $(content).html('');
-            $('#sga-tmpl2 button').click(function () {
+            $('#kmooc-sga-content button').click(function () {
                 $.post(uploadUrl,
                     {},
                     function (data) {
-                        console.log(data);
+                        //console.log(data);
                         render(data);
                     }, "json");
             });
