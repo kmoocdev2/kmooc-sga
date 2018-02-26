@@ -311,7 +311,7 @@ class StaffGradedAssignmentXBlock2(XBlock):
                 'fields': edit_fields
             }
             fragment = Fragment()
-            fragment.adcontent(
+            fragment.addcontent(
                 render_template(
                     'templates/staff_graded_assignment/edit.html',
                     context
