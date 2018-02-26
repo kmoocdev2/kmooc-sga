@@ -25,19 +25,17 @@ function StaffGradedAssignmentXBlock2(runtime, element) {
             var content = $(element).find("#kmooc-sga-content").html(template(state));
 
             console.log('click event create !!');
+            console.log('downloadUrl: ' + downloadUrl);
+
             var do_upload = $(content).html('');
-            $('<button/>')
-                .text('click')
-                .appendTo(do_upload)
-                .appendTo('k-mooc sga button')
-                .click(function(){
-                    $.post(uploadUrl,
-                        {},
-                        function(e, data){
-                            console.log(data);
-                            render(data.result);
-                        });
-                });
+            $('#sga-tmpl2 button').click(function () {
+                $.post(uploadUrl,
+                    {},
+                    function (data) {
+                        console.log(data);
+                        render(data);
+                    }, "json");
+            });
         }
 
         function renderStaffGrading(data) {
@@ -53,7 +51,7 @@ function StaffGradedAssignmentXBlock2(runtime, element) {
                 .data(data);
 
             // Map data to table rows
-            data.assignments.map(function(assignment) {
+            data.assignments.map(function (assignment) {
                 $(element).find("#grade-info #row-" + assignment.module_id)
                     .data(assignment);
             });
@@ -64,20 +62,22 @@ function StaffGradedAssignmentXBlock2(runtime, element) {
                 .on("click", handleGradeEntry);
 
             // Set up annotated file upload
-            $(element).find("#grade-info .fileupload").each(function() {
+            $(element).find("#grade-info .fileupload").each(function () {
                 var row = $(this).parents("tr");
                 var url = staffUploadUrl + "?module_id=" + row.data("module_id");
                 $(this).fileupload({
                     url: url,
-                    progressall: function(e, data) {
+                    progressall: function (e, data) {
                         var percent = parseInt(data.loaded / data.total * 100, 10);
                         row.find(".upload").text("Uploading... " + percent + "%");
                     },
-                    done: function(e, data) { 
+                    done: function (e, data) {
                         // Add a time delay so user will notice upload finishing
                         // for small files
                         setTimeout(
-                            function() { renderStaffGrading(data.result); }, 
+                            function () {
+                                renderStaffGrading(data.result);
+                            },
                             3000)
                     }
                 });
@@ -93,13 +93,13 @@ function StaffGradedAssignmentXBlock2(runtime, element) {
             form.find("#submission_id-input").val(row.data("submission_id"));
             form.find("#grade-input").val(row.data("score"));
             form.find("#comment-input").text(row.data("comment"));
-            form.off("submit").on("submit", function(event) {
+            form.off("submit").on("submit", function (event) {
                 var max_score = row.parents("#grade-info").data("max_score");
                 var score = Number(form.find("#grade-input").val());
                 event.preventDefault();
                 if (isNaN(score)) {
                     form.find(".error").html("<br/>Grade must be a number.");
-                } 
+                }
                 else if (score != parseInt(score)) {
                     form.find(".error").html("<br/>Grade must be an integer.");
                 }
@@ -115,13 +115,13 @@ function StaffGradedAssignmentXBlock2(runtime, element) {
                         .success(renderStaffGrading);
                 }
             });
-            form.find("#remove-grade").on("click", function() {
-                var url = removeGradeUrl + "?module_id=" + 
-                    row.data("module_id") + "&student_id=" + 
+            form.find("#remove-grade").on("click", function () {
+                var url = removeGradeUrl + "?module_id=" +
+                    row.data("module_id") + "&student_id=" +
                     row.data("student_id");
                 $.get(url).success(renderStaffGrading);
             });
-            form.find("#enter-grade-cancel").on("click", function() {
+            form.find("#enter-grade-cancel").on("click", function () {
                 /* We're kind of stretching the limits of leanModal, here,
                  * by nesting modals one on top of the other.  One side effect
                  * is that when the enter grade modal is closed, it hides
@@ -136,13 +136,13 @@ function StaffGradedAssignmentXBlock2(runtime, element) {
                  *
                  * See: https://github.com/mitodl/edx-sga/issues/13
                  */
-                setTimeout(function() {
-                    $("#grade-submissions-button").click(); 
+                setTimeout(function () {
+                    $("#grade-submissions-button").click();
                 }, 225);
             });
         }
 
-        $(function($) { // onLoad
+        $(function ($) { // onLoad
             var block = $(element).find(".sga-block");
             var state = block.attr("data-state");
             render(JSON.parse(state));
@@ -153,7 +153,7 @@ function StaffGradedAssignmentXBlock2(runtime, element) {
                     $(element).find("#sga-grading-tmpl").text());
                 block.find("#grade-submissions-button")
                     .leanModal()
-                    .on("click", function() {
+                    .on("click", function () {
                         $.ajax({
                             url: getStaffGradingUrl,
                             success: renderStaffGrading
@@ -165,11 +165,11 @@ function StaffGradedAssignmentXBlock2(runtime, element) {
         });
     }
 
-    if (require === undefined) { 
-        /** 
+    if (require === undefined) {
+        /**
          * The LMS does not use require.js (although it loads it...) and
          * does not already load jquery.fileupload.  (It looks like it uses
-         * jquery.ajaxfileupload instead.  But our XBlock uses 
+         * jquery.ajaxfileupload instead.  But our XBlock uses
          * jquery.fileupload.
          */
         function loadjs(url) {
@@ -178,6 +178,7 @@ function StaffGradedAssignmentXBlock2(runtime, element) {
                 .attr("src", url)
                 .appendTo(element);
         }
+
         loadjs("/static/js/vendor/jQuery-File-Upload/js/jquery.iframe-transport.js");
         loadjs("/static/js/vendor/jQuery-File-Upload/js/jquery.fileupload.js");
         xblock($, _);

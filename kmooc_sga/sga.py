@@ -340,30 +340,30 @@ class StaffGradedAssignmentXBlock2(XBlock):
 
     @XBlock.handler
     def upload_assignment(self, request, suffix=''):
-        if self.pass_file:
-            answer = {
-                "sha1": 'pass_file',
-                "filename": 'pass_file',
-                "mimetype": 'pass_file',
-            }
-            student_id = self.student_submission_id()
-            submissions_api.create_submission(student_id, answer)
-            return Response(json_body=self.student_state())
-
         require(self.upload_allowed())
-        upload = request.params['assignment']
-        sha1 = _get_sha1(upload.file)
         answer = {
-            "sha1": sha1,
-            "filename": upload.file.name,
-            "mimetype": mimetypes.guess_type(upload.file.name)[0],
+            "sha1": 'pass_file',
+            "filename": 'pass_file',
+            "mimetype": 'pass_file',
         }
         student_id = self.student_submission_id()
         submissions_api.create_submission(student_id, answer)
-        path = self._file_storage_path(sha1, upload.file.name)
-        if not default_storage.exists(path):
-            default_storage.save(path, File(upload.file))
         return Response(json_body=self.student_state())
+
+        # require(self.upload_allowed())
+        # upload = request.params['assignment']
+        # sha1 = _get_sha1(upload.file)
+        # answer = {
+        #     "sha1": sha1,
+        #     "filename": upload.file.name,
+        #     "mimetype": mimetypes.guess_type(upload.file.name)[0],
+        # }
+        # student_id = self.student_submission_id()
+        # submissions_api.create_submission(student_id, answer)
+        # path = self._file_storage_path(sha1, upload.file.name)
+        # if not default_storage.exists(path):
+        #     default_storage.save(path, File(upload.file))
+        # return Response(json_body=self.student_state())
 
     @XBlock.handler
     def staff_upload_annotated(self, request, suffix=''):
