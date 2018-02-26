@@ -3,15 +3,26 @@
 <div class="sga-block" data-state="{{ student_state }}"
      data-staff="{{ is_course_staff }}" data-uploaded="{{ uploaded }}" data-graded="{{ graded }}" data-annotated="{{ annotated }}">
     <script type="text/template" id="sga-tmpl2">
-        <p>
-            <% if (uploaded) { %>
-            <b>{% trans "Complete" %}</b>
-            <% } else { %>
-            <a>
-                <button>{% trans "Check" %}</button>
-            </a>
+        <% if (uploaded) { %>
+        <p><b>{% trans "Complete" %}</b></p>
+        <% } else { %>
+        <a><button>{% trans "Check" %}</button></a>
+        <% } %>
+
+        <% if (graded) { %>
+        <p>{% trans "Your score is" %} <%= graded.score %> / <%= max_score %><br/>
+            <% if (graded.comment) { %>
+            <b>{% trans "Instructor comment" %}</b> <%= graded.comment %>
+            <% } %>
+            <% if (annotated) { %><br/>
+            <b>Annotated file from instructor</b>
+            <a href="<%= annotatedUrl %>"><%= annotated.filename %></a>
             <% } %>
         </p>
+        <% } else if (uploaded) { %>
+        {% trans "This assignment has not yet been graded." %}
+        <% } %>
+
     </script>
 
     <div id="kmooc-sga-content"></div>
