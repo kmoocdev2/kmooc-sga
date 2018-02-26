@@ -23,11 +23,6 @@ function StaffGradedAssignmentXBlock2(runtime, element) {
 
             // Render template
             var content = $(element).find("#kmooc-sga-content").html(template(state));
-
-            //console.log('click event create !!');
-            //console.log('downloadUrl: ' + downloadUrl);
-
-            var do_upload = $(content).html('');
             $('#kmooc-sga-content button').click(function () {
                 $.post(uploadUrl,
                     {},

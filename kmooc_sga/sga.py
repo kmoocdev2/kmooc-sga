@@ -347,8 +347,8 @@ class StaffGradedAssignmentXBlock2(XBlock):
         require(self.upload_allowed())
         answer = {
             "sha1": 'pass_file',
-            "filename": 'pass_file',
-            "mimetype": 'pass_file',
+            "filename": '',
+            "mimetype": '',
         }
         student_id = self.student_submission_id()
         submissions_api.create_submission(student_id, answer)
