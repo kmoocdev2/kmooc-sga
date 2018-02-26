@@ -57,8 +57,7 @@ class StaffGradedAssignmentXBlock2(XBlock):
     display_name = String(
         display_name=_("display_name"),
         default=_('K-MOOC Staff Graded Assignment'), scope=Scope.settings,
-        help="This name appears in the horizontal navigation at the top of "
-             "the page."
+        help=_("This name appears in the horizontal navigation at the top of the page.")
     )
 
     pass_file = Boolean(
@@ -70,7 +69,7 @@ class StaffGradedAssignmentXBlock2(XBlock):
 
     weight = Float(
         display_name=_("Problem Weight"),
-        help=("Defines the number of points each problem is worth. "
+        help=_("Defines the number of points each problem is worth. "
               "If the value is not set, the problem is worth the sum of the "
               "option point values."),
         values={"min": 0, "step": .1},
@@ -79,7 +78,7 @@ class StaffGradedAssignmentXBlock2(XBlock):
 
     points = Integer(
         display_name=_("Maximum score"),
-        help=("Maximum grade score given to assignment by staff."),
+        help=_("Maximum grade score given to assignment by staff."),
         default=100,
         scope=Scope.settings
     )
