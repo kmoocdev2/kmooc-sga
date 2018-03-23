@@ -3,6 +3,7 @@
 <div class="sga-block" data-state="{{ student_state }}"
      data-staff="{{ is_course_staff }}" data-uploaded="{{ uploaded }}" data-graded="{{ graded }}" data-annotated="{{ annotated }}">
     <script type="text/template" id="sga-tmpl2">
+        <p><%= display_name %></p>
         <% if (uploaded) { %>
         <p><b>{% trans "Complete" %}</b></p>
         <% } else { %>

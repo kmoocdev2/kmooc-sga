@@ -236,6 +236,7 @@ class StaffGradedAssignmentXBlock2(XBlock):
             "max_score": self.max_score(),
             "upload_allowed": self.upload_allowed(),
             "pass_file": self.pass_file,
+            "display_name": str(self.display_name),
         }
 
     def staff_grading_data(self):
@@ -302,7 +303,7 @@ class StaffGradedAssignmentXBlock2(XBlock):
                     (cls.display_name, 'string'),
                     # (cls.pass_file, 'boolean'),
                     (cls.points, 'number'),
-                    (cls.weight, 'number')
+                    # (cls.weight, 'number')
                 )
             )
 
