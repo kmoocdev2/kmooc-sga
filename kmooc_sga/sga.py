@@ -27,8 +27,8 @@ from xblock.fields import DateTime, Scope, String, Float, Integer, Boolean
 from xblock.fragment import Fragment
 from xmodule.util.duedate import get_extended_due_date
 
-# from django.utils.translation import ugettext as _
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import ugettext as _
+# from django.utils.translation import gettext_lazy as _
 
 log = logging.getLogger(__name__)
 
