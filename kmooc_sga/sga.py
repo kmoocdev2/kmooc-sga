@@ -153,8 +153,11 @@ class StaffGradedAssignmentXBlock2(XBlock):
         """
         Get student's most recent submission.
         """
-        submissions = submissions_api.get_submissions(
-            self.student_submission_id(id))
+	try:
+            submissions = submissions_api.get_submissions(self.student_submission_id(id))
+	except:
+	    submissions = None
+
         if submissions:
             # If I understand docs correctly, most recent submission should
             # be first
